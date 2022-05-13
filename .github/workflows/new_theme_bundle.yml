@@ -1,12 +1,17 @@
+name: New theme bundle
+
 on:
   repository_dispatch:
     types: [new_theme_bundle]
 
 jobs:
-  run_if_failure:
-    if: ${{ !github.event.client_payload.passed }}
-    runs-on: ubuntu-latest
-    steps:
-      - env:
-          MESSAGE: ${{ github.event.client_payload.message }}
-        run: echo $MESSAGE
+  build:
+    runs-on: ubuntu-20.04
+    steps:  
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+      - name: echo event
+        run: |
+          echo "${{ github.event.client_payload.ref }}"
