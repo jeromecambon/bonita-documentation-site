@@ -10,8 +10,6 @@ jobs:
     steps:  
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.client_payload.ref }}
       - name: echo event
         run: |
-          echo "${{ github.event.client_payload.ref }}"
+          echo "${{ github.event.client_payload }}"
