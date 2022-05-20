@@ -23,13 +23,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:  
       - name: Checkout
-        uses: actions/checkout@v2
-        
-      - name: Perl setup
-        uses: shogo82148/actions-setup-perl@v1
-      - run: cpanm --installdeps .
-      - run: prove -lv t
-      
+        uses: actions/checkout@v2       
+      - name: Setup Perl environment
+        uses: shogo82148/actions-setup-perl@v1.15.3
       - name: echo event
         run: |
           url = "${{ github.event.client_payload.url }}"
