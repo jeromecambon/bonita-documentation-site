@@ -44,6 +44,7 @@ jobs:
           
       - name: Update theme bundle in Antora playbook
         run: |
+          echo "bundle_url=$bundle_url"
           perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
           cat antora-playbook.yml    
           
