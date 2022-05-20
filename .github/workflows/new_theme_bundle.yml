@@ -43,14 +43,12 @@ jobs:
           echo "${{ github.event.inputs.release }}"
           echo "${{ github.event.inputs.bundle_file }}"
           echo "${{ github.event.inputs.bundle_url }}"
-                    
-      - name: Create PR update theme bundle in Antora playbook
-        uses: technote-space/create-pr-action@v2
-        with:
-          EXECUTE_COMMANDS: |
-            echo "bundle_url=$bundle_url"
-            perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
-            cat antora-playbook.yml    
-          COMMIT_MESSAGE: 'feat: update theme bundle in Antora playbook'
-          PR_BRANCH_NAME: 'feat/update_theme'
-          PR_TITLE: 'feat(theme_update): new theme bundle $bundle_file'
+          
+      - name: Update theme bundle in Antora playbook
+        run: |
+          echo "bundle_url=$bundle_url"
+          perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
+          cat antora-playbook.yml    
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
