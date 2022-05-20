@@ -28,7 +28,6 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1.15.3
       - name: echo event
         run: |
-          url = "${{ github.event.client_payload.url }}"
           echo "${{ github.event.client_payload.release }}"
           echo "${{ github.event.client_payload.file }}"
           echo "${{ github.event.client_payload.url }}"
