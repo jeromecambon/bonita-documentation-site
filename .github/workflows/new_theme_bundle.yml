@@ -54,3 +54,8 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.JC_PAT }}
+          commit-message: "feat: update theme bundle in Antora playbook"
+          branch: "feat/update_theme"
+          delete-branch: true
+          title: "feat(theme_update): new theme bundle $bundle_file"
+          body: "- Update bundle theme with $bundle_file"
