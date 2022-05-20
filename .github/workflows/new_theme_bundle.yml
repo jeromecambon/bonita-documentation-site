@@ -35,12 +35,12 @@ jobs:
         run: |
           echo "client_payload:"
           echo "${{ github.event.client_payload.release }}"
-          echo "${{ github.event.client_payload.file }}"
-          echo "${{ github.event.client_payload.url }}"
+          echo "${{ github.event.client_payload.bundle_file }}"
+          echo "${{ github.event.client_payload.bundle_url }}"
           echo "inputs:"
           echo "${{ github.event.inputs.release }}"
-          echo "${{ github.event.inputs.file }}"
-          echo "${{ github.event.inputs.url }}"
+          echo "${{ github.event.inputs.bundle_file }}"
+          echo "${{ github.event.inputs.bundle_url }}"
           
       - name: Update theme bundle in Antora playbook
         run: |
