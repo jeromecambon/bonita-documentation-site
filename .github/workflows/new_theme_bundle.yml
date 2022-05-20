@@ -3,30 +3,12 @@ name: New theme bundle
 on:
   repository_dispatch:
     types: [new_theme_bundle]
-  workflow_dispatch:
-    inputs:
-      release:
-        description: 'release'
-        type: string
-        required: false
-      release_notes_url:
-        description: 'release_notes_url'
-        type: string
-        required: false
-      bundle_file:
-        description: 'bundle_file'
-        type: string
-        required: false
-      bundle_url:
-        description: 'bundle_url'
-        type: string
-        required: true
 
 env:
-  release_name: ${{ github.event.inputs.release }}
-  release_notes_url: ${{ github.event.inputs.release_notes_url }}
-  bundle_file: ${{ github.event.inputs.bundle_file }}
-  bundle_url: ${{ github.event.inputs.bundle_url }}
+  release_name: ${{ github.event.client_payload.release }}
+  release_notes_url: ${{ github.event.client_payload.release_notes_url }}
+  bundle_file: ${{ github.event.client_payload.bundle_file }}
+  bundle_url: ${{ github.event.client_payload.bundle_url }}
 
 jobs:
   build:
@@ -36,20 +18,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.JC_PAT }}
+          
       - name: Setup Perl environment
         uses: shogo82148/actions-setup-perl@v1.15.3
-      - name: echo event
-        run: |
-          echo "client_payload:"
-          echo "${{ github.event.client_payload.release }}"
-          echo "${{ github.event.client_payload.release_notes_url }}"
-          echo "${{ github.event.client_payload.bundle_file }}"
-          echo "${{ github.event.client_payload.bundle_url }}"
-          echo "inputs:"
-          echo "${{ github.event.inputs.release }}"
-          echo "${{ github.event.inputs.release_notes_url }}"
-          echo "${{ github.event.inputs.bundle_file }}"
-          echo "${{ github.event.inputs.bundle_url }}"
           
       - name: Update theme bundle in Antora playbook
         run: |
