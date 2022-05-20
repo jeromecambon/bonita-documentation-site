@@ -39,6 +39,7 @@ jobs:
       - name: Update theme bundle in Antora playbook
         run: |
           perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
+          cat antora-playbook.yml
           
       - name: Commit/push Antora playbook
         uses: test-room-7/action-update-file@v1
