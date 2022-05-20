@@ -62,7 +62,7 @@ jobs:
         with:
           token: ${{ secrets.JC_PAT }}
           commit-message: "feat: update theme bundle in Antora playbook"
-          branch: "feat/update_theme"
+          branch: "feat/update_theme_${{ env.release_name }}"
           delete-branch: true
           title: "feat(theme_update): new theme bundle ${{ env.bundle_file }}"
           body: "- Update bundle theme with ${{ env.bundle_file }}\n Release notes: ${{ env.release_notes_url }}"
