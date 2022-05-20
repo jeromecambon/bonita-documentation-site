@@ -18,6 +18,11 @@ on:
         type: string
         required: true
 
+env:
+  release_name: echo "${{ github.event.inputs.release }}"
+  bundle_file: echo "${{ github.event.inputs.file }}"
+  bundle_url: echo "${{ github.event.inputs.url }}"
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -28,13 +33,14 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1.15.3
       - name: echo event
         run: |
+          echo "client_payload:"
           echo "${{ github.event.client_payload.release }}"
           echo "${{ github.event.client_payload.file }}"
           echo "${{ github.event.client_payload.url }}"
-        env:
-          release_name: echo "${{ github.event.client_payload.release }}"
-          bundle_file: echo "${{ github.event.client_payload.file }}"
-          bundle_url: echo "${{ github.event.client_payload.url }}"
+          echo "inputs:"
+          echo "${{ github.event.inputs.release }}"
+          echo "${{ github.event.inputs.file }}"
+          echo "${{ github.event.inputs.url }}"
           
       - name: Update theme bundle in Antora playbook
         run: |
