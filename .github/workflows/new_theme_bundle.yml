@@ -31,11 +31,18 @@ jobs:
           echo "${{ github.event.client_payload.release }}"
           echo "${{ github.event.client_payload.file }}"
           echo "${{ github.event.client_payload.url }}"
-          
-      - name: Update theme bundle
         env:
           release_name: ${{ github.event.inputs.release }}
           bundle_file: ${{ github.event.inputs.file }}
           bundle_url: ${{ github.event.inputs.url }}
+          
+      - name: Update theme bundle in Antora playbook
         run: |
           perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
+          
+      - name: Commit/push Antora playbook
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: antora-playbook.yml
+          commit-msg: Update Antora playbook with bundle $bundle_file
+          github-token: ${{ secrets.GITHUB_TOKEN }}
