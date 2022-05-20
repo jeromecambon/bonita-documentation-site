@@ -3,6 +3,20 @@ name: New theme bundle
 on:
   repository_dispatch:
     types: [new_theme_bundle]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'release'
+        type: string
+        required: false
+      bundle_file:
+        description: 'bundle_file'
+        type: string
+        required: false
+      bundle_url:
+        description: 'bundle_url'
+        type: string
+        required: true
 
 jobs:
   build:
@@ -10,8 +24,24 @@ jobs:
     steps:  
       - name: Checkout
         uses: actions/checkout@v2
+        
+      - name: Perl setup
+        uses: shogo82148/actions-setup-perl@v1
+      - run: cpanm --installdeps .
+      - run: prove -lv t
+      
       - name: echo event
         run: |
+          url = "${{ github.event.client_payload.url }}"
           echo "${{ github.event.client_payload.release }}"
           echo "${{ github.event.client_payload.file }}"
           echo "${{ github.event.client_payload.url }}"
+          
+      - name: Init variables
+        env:
+          release_name: ${{ github.event.inputs.release }}
+          bundle_file: ${{ github.event.inputs.file }}
+          bundle_url: ${{ github.event.inputs.url }}
+      - name: Update theme bundle
+        run: |
+          perl -007 -i -pe 's?.*ui:.*\n.*bundle:.*\n.*url:.*?ui:\n  bundle:\n    url: '$bundle_url'?' antora-playbook.yml
